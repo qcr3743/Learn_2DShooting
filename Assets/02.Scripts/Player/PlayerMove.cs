@@ -20,6 +20,12 @@ public class PlayerMove : MonoBehaviour
     // 초당 프레임 실행 횟수: 별다른 설정이 없을 경우 가능한 많이
     private void Update()
     {
+        Move();
+        SpeedChange();
+    }
+
+    private void Move()
+    {
         //1. 키보드 입력을 받음
         /*
         if(Input.GetKey(KeyCode.LeftArrow)) 
@@ -44,18 +50,7 @@ public class PlayerMove : MonoBehaviour
         Vector2 direction = new Vector2(h, v);
         Vector2 normalizedDirection = direction.normalized;
         
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Speed += speedStep;
-        }
-
-        else if (Input.GetKeyDown(KeyCode.Q))
-        {
-            if ((Speed-speedStep) > 0)
-            {
-                Speed -= speedStep;
-            }
-        }
+        SpeedChange();
         transform.Translate(normalizedDirection * Speed * Time.deltaTime);
 
         Vector3 playerPos = transform.position;
@@ -78,10 +73,22 @@ public class PlayerMove : MonoBehaviour
             playerPos.x = xBound;
         }
         transform.position = playerPos;
-        
-        
-        
         //transform.Position도 가능은 한데 Vector3만 사용 가능, Vector2는 불가능
-        
+    }
+
+    private void SpeedChange()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Speed += speedStep;
+        }
+
+        else if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if ((Speed-speedStep) > 0)
+            {
+                Speed -= speedStep;
+            }
+        }
     }
 }
