@@ -4,6 +4,7 @@ public class PlayerMove : MonoBehaviour
 {
     //필요 필드:
     public float Speed;
+    public float speedStep;
 
     //매 프레임마다 실행
     // 초당 프레임 실행 횟수: 별다른 설정이 없을 경우 가능한 많이
@@ -32,8 +33,23 @@ public class PlayerMove : MonoBehaviour
         float v = Input.GetAxis("Vertical"); //키보드 위/아래 입력 상태에 따라 -1f ~ 0 ~ 1f
         Vector2 direction = new Vector2(h, v);
         Vector2 normalizedDirection = direction.normalized;
+        
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Speed += speedStep;
+        }
+
+        else if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if ((Speed-speedStep) > 0)
+            {
+                Speed -= speedStep;
+            }
+        }
         transform.Translate(normalizedDirection * Speed * Time.deltaTime);
         Debug.Log($"h: {h}, v: {v}");
+        
+        
         
         //transform.Position도 가능은 한데 Vector3 사용이 고정임
         
