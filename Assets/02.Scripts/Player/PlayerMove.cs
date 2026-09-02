@@ -31,8 +31,8 @@ public class PlayerMove : MonoBehaviour
         float h = Input.GetAxis("Horizontal"); // 키보드 왼/오른쪽 입력 상태에 따라 -1f ~ 0 ~ 1f
         float v = Input.GetAxis("Vertical"); //키보드 위/아래 입력 상태에 따라 -1f ~ 0 ~ 1f
         Vector2 direction = new Vector2(h, v);
-        Vector2 normalizedSpeed = (direction * Speed).normalized; //벡터의 길이를 1로 만들어줌(방향만 유지)
-        transform.Translate(direction * normalizedSpeed * Time.deltaTime);
+        Vector2 normalizedDirection = direction.normalized;
+        transform.Translate(normalizedDirection * Speed * Time.deltaTime);
         Debug.Log($"h: {h}, v: {v}");
         
         //transform.Position도 가능은 한데 Vector3 사용이 고정임
