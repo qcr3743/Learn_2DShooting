@@ -410,6 +410,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b8ce14162ee28b4681c0a2bf2ea476a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerFire
+  CanFire: 1
+  TimerTime: 1
   BulletPrefab: {fileID: 699719072226274218, guid: 113a7b3f30b8cb74297264175f2a0e49, type: 3}
   BulletSubPrefab: {fileID: 47116667516339651, guid: 8bba048f60e4e4a48bca60ad42ec3a7c, type: 3}
   FirePoint1: {fileID: 506527836}
