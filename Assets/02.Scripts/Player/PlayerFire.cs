@@ -6,7 +6,8 @@ using UnityEngine;
 public class PlayerFire : MonoBehaviour
 {
     public GameObject BulletPrefab;
-    public Transform FirePoint;
+    public Transform FirePoint1;
+    public Transform FirePoint2;
     private void Start()
     {
         
@@ -19,9 +20,8 @@ public class PlayerFire : MonoBehaviour
         {
             //2. 총알 프리팹 생성
             //Instantiate는 프리팹을 복사해서 게임 오브젝트를 생성하고 씬에 넣어주는 기능
-            
-            GameObject bullet = Instantiate(BulletPrefab);
-            bullet.transform.position = FirePoint.position;
+            Instantiate(BulletPrefab, FirePoint1.position, FirePoint1.rotation);
+            Instantiate(BulletPrefab, FirePoint2.position, FirePoint2.rotation);
         }
     }
 }
