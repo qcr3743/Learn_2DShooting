@@ -5,6 +5,16 @@ public class PlayerMove : MonoBehaviour
     //필요 필드:
     public float Speed;
     public float speedStep;
+    float orthographicSize;
+    Vector3 playerStartPos;
+    private float xBound;
+
+    void Start()
+    {
+        orthographicSize = Camera.main.orthographicSize;
+        playerStartPos = transform.position;
+        xBound = playerStartPos.x + orthographicSize * (9f / 19f);
+    }
 
     //매 프레임마다 실행
     // 초당 프레임 실행 횟수: 별다른 설정이 없을 경우 가능한 많이
@@ -47,11 +57,31 @@ public class PlayerMove : MonoBehaviour
             }
         }
         transform.Translate(normalizedDirection * Speed * Time.deltaTime);
-        Debug.Log($"h: {h}, v: {v}");
+
+        Vector3 playerPos = transform.position;
+        
+        if (playerPos.y > 5)
+        {
+            playerPos.y = 5;
+        }
+        else if (playerPos.y < -5)
+        {
+            playerPos.y = -5;
+        }
+
+        if (playerPos.x > xBound)
+        {
+            playerPos.x = -xBound;
+        }
+        else if (playerPos.x < -xBound)
+        {
+            playerPos.x = xBound;
+        }
+        transform.position = playerPos;
         
         
         
-        //transform.Position도 가능은 한데 Vector3 사용이 고정임
+        //transform.Position도 가능은 한데 Vector3만 사용 가능, Vector2는 불가능
         
     }
 }
