@@ -3,15 +3,15 @@ using UnityEngine;
 
 public class EnemyMovementType1_DownStraight : Enemy
 {
-    public EnemyMovementType1_DownStraight(float moveSpeed, float health)
+    public EnemyMovementType1_DownStraight(float _moveSpeed, float _health)
     {
-        this.moveSpeed = moveSpeed;
-        this.health = health;
+        this._moveSpeed = _moveSpeed;
+        this._health = _health;
     }
 
-    public override void Move()
+    protected override void Move()
     {
-        transform.Translate(Vector3.down * moveSpeed * Time.deltaTime);
+        transform.Translate(Vector3.down * _moveSpeed * Time.deltaTime);
     }
 
     private void Update()
