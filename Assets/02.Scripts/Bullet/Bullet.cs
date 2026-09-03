@@ -4,6 +4,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public float speed;
+    public float damage = 40;
 
     private void Start()
     {
@@ -23,11 +24,21 @@ public class Bullet : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log("충돌 발생");
-
         //Bullet 파괴
-        Destroy(this.gameObject);
-        //충돌한 게임오브젝트파괴
-        Destroy(collision.gameObject);
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            //Bullet 파괴
+            Destroy(this.gameObject);
+            //GetComponent<타입>(): 게임오브젝트가 가지고 있는 컴포넌트를 참조
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            enemy.health -= damage;
+            Debug.Log($"{enemy.health}");
+            if (enemy.health <= 0)
+            {
+                //충돌한 게임오브젝트파괴
+                Destroy(collision.gameObject);
+            }
+        }
     }
 
     private void OnCollisionStay2D(Collision2D collision)

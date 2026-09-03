@@ -1,8 +1,9 @@
 using UnityEngine;
 
-public class EnemyMove : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     public float moveSpeed;
+    public float health = 100;
 
     private void Update()
     {
