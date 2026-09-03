@@ -7,11 +7,11 @@ using UnityEngine.UI;
 //- 생성 취리
 public class PlayerFire : MonoBehaviour
 {
-    private bool CanFire = true;
-    public float TimerTime;
-    private float time;
-    private bool IsManualAttack = true;
-    
+    private bool _canFire = true;
+    public float timerTime;
+    private float _time;
+    private bool _isManualAttack = true;
+
     public GameObject BulletPrefab;
     public GameObject BulletSubPrefab;
     public Transform FirePoint1;
@@ -21,9 +21,9 @@ public class PlayerFire : MonoBehaviour
 
     private void Start()
     {
-        time = TimerTime;
+        _time = timerTime;
     }
-    
+
     private void Update()
     {
         AttackModeToggle();
@@ -34,23 +34,22 @@ public class PlayerFire : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            IsManualAttack = !IsManualAttack;
+            _isManualAttack = !_isManualAttack;
         }
-    } 
+    }
 
     private void FireBullet()
     {
-        if (CanFire &&(!IsManualAttack || (IsManualAttack && Input.GetKeyDown(KeyCode.Space))))
+        if (_canFire && (!_isManualAttack || (_isManualAttack && Input.GetKeyDown(KeyCode.Space))))
         {
             Fire();
         }
-        
-        TimerTime -= Time.deltaTime;
-        if (TimerTime <= 0)
+
+        timerTime -= UnityEngine.Time.deltaTime;
+        if (timerTime <= 0)
         {
-            CanFire = true;
+            _canFire = true;
         }
-        
     }
 
     void Fire()
@@ -59,7 +58,7 @@ public class PlayerFire : MonoBehaviour
         Instantiate(BulletPrefab, FirePoint2.position, FirePoint2.rotation);
         Instantiate(BulletSubPrefab, FirePointSub1.position, FirePointSub1.rotation);
         Instantiate(BulletSubPrefab, FirePointSub2.position, FirePointSub2.rotation);
-        CanFire = false;
-        TimerTime = time;
+        _canFire = false;
+        timerTime = _time;
     }
 }
