@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyMove : MonoBehaviour
 {
-    public float speed;
+    public float moveSpeed;
 
     private void Update()
     {
@@ -11,6 +11,6 @@ public class EnemyMove : MonoBehaviour
 
     private void Move()
     {
-        transform.Translate(Vector3.down * speed * Time.deltaTime);
+        transform.Translate(Vector3.down * moveSpeed * Time.deltaTime);
     }
 }
