@@ -1,17 +1,9 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour
 {
-    public float moveSpeed;
+    public float moveSpeed = 1f;
     public float health = 100;
 
-    private void Update()
-    {
-        Move();
-    }
-
-    private void Move()
-    {
-        transform.Translate(Vector3.down * moveSpeed * Time.deltaTime);
-    }
+    public abstract void Move();
 }
