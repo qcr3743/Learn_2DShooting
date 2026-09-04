@@ -113,21 +113,53 @@ jobs:
               }
             }' > request.json
 
-          # Gemini에 보내기 전에 JSON 문법 검사
+          # JSON 자체가 정상인지 검사
           jq empty request.json
 
-          HTTP_CODE=$(curl -sS \
-            -o response.json \
-            -w "%{http_code}" \
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent" \
-            -H "x-goog-api-key: ${GEMINI_API_KEY}" \
-            --json @request.json)
+          python3 <<'PY'
+          import json
+          import os
+          import sys
+          import urllib.request
+          import urllib.error
 
-          if [ "$HTTP_CODE" -lt 200 ] || [ "$HTTP_CODE" -ge 300 ]; then
-            echo "Gemini API request failed. HTTP ${HTTP_CODE}"
-            cat response.json
-            exit 1
-          fi
+          url = (
+              "https://generativelanguage.googleapis.com/v1beta/"
+              "models/gemini-3.8-flash:generateContent"
+          )
+
+          with open("request.json", "rb") as f:
+              data = f.read()
+
+          request = urllib.request.Request(
+              url,
+              data=data,
+              method="POST",
+              headers={
+                  "x-goog-api-key": os.environ["GEMINI_API_KEY"],
+                  "Content-Type": "application/json",
+              },
+          )
+
+          try:
+              with urllib.request.urlopen(request) as response:
+                  body = response.read()
+
+                  with open("response.json", "wb") as f:
+                      f.write(body)
+
+                  print(f"Gemini API request succeeded. HTTP {response.status}")
+
+          except urllib.error.HTTPError as e:
+              body = e.read()
+
+              with open("response.json", "wb") as f:
+                  f.write(body)
+
+              print(f"Gemini API request failed. HTTP {e.code}")
+              print(body.decode("utf-8", errors="replace"))
+              sys.exit(1)
+          PY
 
           jq -r '
             [
