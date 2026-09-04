@@ -17,7 +17,7 @@ public class Bullet : MonoBehaviour
 
     private void Move()
     {
-        transform.Translate(new Vector2(0f, 1f) * speed);
+        transform.Translate(new Vector2(0f, 1f) * speed * Time.deltaTime);
     }
 
     //충돌 관련 이벤트 (Enter -> Stay -> Exit)
@@ -27,8 +27,6 @@ public class Bullet : MonoBehaviour
         //Bullet 파괴
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            //Bullet 파괴
-            Destroy(this.gameObject);
             //GetComponent<타입>(): 게임오브젝트가 가지고 있는 컴포넌트를 참조
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             //<enemy>는 클래스 말하는거
@@ -47,6 +45,7 @@ public class Bullet : MonoBehaviour
             }
             */
             enemy.TakeDamage(damage);
+            Destroy(this.gameObject);
         }
     }
 
@@ -56,8 +55,6 @@ public class Bullet : MonoBehaviour
         //Bullet 파괴
         if (other.gameObject.CompareTag("Enemy"))
         {
-            //Bullet 파괴
-            Destroy(this.gameObject);
             //GetComponent<타입>(): 게임오브젝트가 가지고 있는 컴포넌트를 참조
             Enemy enemy = other.gameObject.GetComponent<Enemy>();
             //<enemy>는 클래스 말하는거
@@ -76,16 +73,7 @@ public class Bullet : MonoBehaviour
             }
             */
             enemy.TakeDamage(damage);
+            Destroy(this.gameObject);
         }
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        //Debug.Log("충돌 중");
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        //Debug.Log("충돌 끝");
     }
 }
