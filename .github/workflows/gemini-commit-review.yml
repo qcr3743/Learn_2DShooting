@@ -22,12 +22,14 @@ jobs:
     timeout-minutes: 10
 
     steps:
+      # 1. 저장소 가져오기
       - name: Checkout repository
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
           persist-credentials: false
 
+      # 2. 이번 커밋에서 변경된 C# 코드만 diff로 저장
       - name: Create commit diff
         shell: bash
         env:
@@ -49,79 +51,117 @@ jobs:
               -- ':(glob)Assets/02.Scripts/**/*.cs' > commit.diff
           fi
 
-          if [[ ! -s commit.diff ]]; then
-            echo "Assets/02.Scripts에서 리뷰할 C# 변경사항이 없습니다."
+          if [ ! -s commit.diff ]; then
+            echo "No C# changes found."
+            exit 0
+          fi
+
+      # 3. Gemini에게 전달할 프롬프트 생성
+      - name: Create review prompt
+        shell: bash
+        run: |
+          {
+            echo "당신은 Unity C# 코드 리뷰어입니다."
+            echo
+            echo "아래는 이번 커밋에서 변경된 C# 코드입니다."
+            echo
+            echo "다음 항목을 중심으로 검토하세요:"
+            echo "- 실제 버그 또는 런타임 오류 가능성"
+            echo "- NullReferenceException 등 예외 가능성"
+            echo "- Unity 생명주기 및 API 사용 문제"
+            echo "- 프레임 레이트 의존성"
+            echo "- 성능 및 메모리 문제"
+            echo "- 객체지향 설계와 책임 분리"
+            echo "- 코드 가독성"
+            echo
+            echo "단순 취향 차이나 과도한 리팩터링은 지적하지 마세요."
+            echo "문제가 있다면 중요도, 위치, 원인, 발생 가능한 결과, 수정 방법을 설명하세요."
+            echo
+
+            if [ -f GEMINI.md ]; then
+              echo "=== Repository Review Rules ==="
+              cat GEMINI.md
+              echo
+            fi
+
+            echo "=== Commit Diff ==="
+            cat commit.diff
+          } > prompt.txt
+
+      # 4. Gemini 3.8 Flash API 직접 호출
+      - name: Run Gemini 3.8 review
+        shell: bash
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          jq -n \
+            --rawfile prompt prompt.txt \
+            '{
+              contents: [
+                {
+                  parts: [
+                    {
+                      text: $prompt
+                    }
+                  ]
+                }
+              ],
+              generationConfig: {
+                thinkingConfig: {
+                  thinkingLevel: "medium"
+                }
+              }
+            }' > request.json
+
+          HTTP_CODE=$(curl -sS \
+            -o response.json \
+            -w "%{http_code}" \
+            -X POST \
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent" \
+            -H "x-goog-api-key: ${GEMINI_API_KEY}" \
+            -H "Content-Type: application/json" \
+            --data-binary @request.json)
+
+          if [ "$HTTP_CODE" -lt 200 ] || [ "$HTTP_CODE" -ge 300 ]; then
+            echo "Gemini API request failed. HTTP ${HTTP_CODE}"
+            jq -r '.error.message // .' response.json
             exit 1
           fi
 
-      - name: Run Gemini review
-        id: gemini_review
-        uses: google-github-actions/run-gemini-cli@v0.1.22
+          jq -r '
+            [
+              .candidates[0].content.parts[]?
+              | select(.text != null)
+              | .text
+            ]
+            | join("\n")
+          ' response.json > review.md
+
+          if [ ! -s review.md ]; then
+            echo "Gemini returned an empty review."
+            exit 1
+          fi
+
+          echo "Gemini 3.8 review completed."
+
+      # 5. 리뷰 결과를 저장소에 커밋
+      - name: Commit review
+        shell: bash
         env:
-          GEMINI_CLI_TRUST_WORKSPACE: 'true'
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GITHUB_TOKEN: ${{ github.token }}
-        with:
-          gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
-          gemini_model: gemini-3.8-flash
-          prompt: |
-            현재 저장소의 최신 커밋을 코드 리뷰하세요.
-
-            반드시 먼저 commit.diff 파일을 읽고,
-            Assets/02.Scripts 폴더에 포함된 C# 변경사항을 검토하세요.
-
-            저장소의 GEMINI.md와 GEMINI.md에서 가져온
-            코드 리뷰 기준을 반드시 적용하세요.
-
-            변경된 코드의 버그, 예외 가능성, Unity 생명주기 문제,
-            성능 문제, 메모리 할당, 설계 및 가독성을 검토하세요.
-
-            변경사항과 직접 관련된 문제를 우선하고,
-            근거가 약한 추측이나 과도한 리팩터링 제안은 피하세요.
-
-            파일을 수정하거나 Commit하지 말고
-            리뷰 결과만 한국어로 작성하세요.
-
-      - name: Add review to Actions summary
-        if: always()
-        shell: bash
-        env:
-          REVIEW_BODY: ${{ steps.gemini_review.outputs.summary }}
-          REVIEW_ERROR: ${{ steps.gemini_review.outputs.error }}
         run: |
-          {
-            echo "## Gemini Commit Review"
-            echo
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-            if [[ -n "${REVIEW_BODY}" ]]; then
-              printf '%s\n' "${REVIEW_BODY}"
-            else
-              echo "Gemini 리뷰 결과가 생성되지 않았습니다."
-            fi
+          git add review.md
 
-            if [[ -n "${REVIEW_ERROR}" ]]; then
-              echo
-              echo "### Error"
-              printf '%s\n' "${REVIEW_ERROR}"
-            fi
-          } >> "${GITHUB_STEP_SUMMARY}"
+          if git diff --cached --quiet; then
+            echo "No review changes to commit."
+            exit 0
+          fi
 
-      - name: Post review on commit
-        if: ${{ steps.gemini_review.outputs.summary != '' }}
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-          REVIEW_BODY: ${{ steps.gemini_review.outputs.summary }}
-          REPOSITORY: ${{ github.repository }}
-          COMMIT_SHA: ${{ github.sha }}
-        run: |
-          jq -n \
-            --arg body "## Gemini Commit Review
+          git commit -m "docs: update Gemini code review"
 
-          ${REVIEW_BODY}" \
-            '{body: $body}' > comment.json
-
-          gh api \
-            --method POST \
-            "/repos/${REPOSITORY}/commits/${COMMIT_SHA}/comments" \
-            --input comment.json
+          git push \
+            "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+            HEAD:${GITHUB_REF_NAME}
