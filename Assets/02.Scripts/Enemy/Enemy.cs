@@ -15,4 +15,15 @@ public abstract class Enemy : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    /*
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!other.gameObject.CompareTag("Player")) return;
+
+        Player player = other.gameObject.GetComponent<Player>();
+        player.TakeDamage(_damage);
+
+        Destroy(gameObject);
+    }
+    */
 }

@@ -8,6 +8,8 @@ public class EnemyMovementType3_ToPlayerInitialPoint : Enemy
 
     protected override void Move()
     {
+        if (player == null) return;
+
         Vector2 direction = (_playerInitialPos - _enemyInitialPos).normalized;
         transform.Translate(direction * _moveSpeed * Time.deltaTime);
     }

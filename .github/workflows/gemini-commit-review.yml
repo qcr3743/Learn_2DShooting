@@ -38,7 +38,7 @@ jobs:
           if git rev-parse "${COMMIT_SHA}^" > /dev/null 2>&1; then
             git diff \
               --no-ext-diff \
-              --unified=80 \
+              --unified=30 \
               "${COMMIT_SHA}^" \
               "${COMMIT_SHA}" \
               -- ':(glob)Assets/02.Scripts/**/*.cs' > commit.diff
@@ -46,7 +46,7 @@ jobs:
             git show \
               --format= \
               --no-ext-diff \
-              --unified=80 \
+              --unified=30 \
               "${COMMIT_SHA}" \
               -- ':(glob)Assets/02.Scripts/**/*.cs' > commit.diff
           fi
@@ -113,18 +113,19 @@ jobs:
               }
             }' > request.json
 
+          # Gemini에 보내기 전에 JSON 문법 검사
+          jq empty request.json
+
           HTTP_CODE=$(curl -sS \
             -o response.json \
             -w "%{http_code}" \
-            -X POST \
             "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent" \
             -H "x-goog-api-key: ${GEMINI_API_KEY}" \
-            -H "Content-Type: application/json" \
-            --data-binary @request.json)
+            --json @request.json)
 
           if [ "$HTTP_CODE" -lt 200 ] || [ "$HTTP_CODE" -ge 300 ]; then
             echo "Gemini API request failed. HTTP ${HTTP_CODE}"
-            jq -r '.error.message // .' response.json
+            cat response.json
             exit 1
           fi
 
@@ -139,6 +140,7 @@ jobs:
 
           if [ ! -s review.md ]; then
             echo "Gemini returned an empty review."
+            cat response.json
             exit 1
           fi
 
