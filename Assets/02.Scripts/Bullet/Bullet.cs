@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float speed;
+    public float speed = 10f;
     public float damage = 40;
 
     private void Start()
@@ -17,7 +17,7 @@ public class Bullet : MonoBehaviour
 
     private void Move()
     {
-        transform.Translate(new Vector2(0f, 1f) * speed * Time.deltaTime);
+        transform.Translate(new Vector2(0f, 1f) * speed);
     }
 
     //충돌 관련 이벤트 (Enter -> Stay -> Exit)
