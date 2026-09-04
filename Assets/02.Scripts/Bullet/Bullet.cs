@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public int forTest;
     public float speed;
     public float damage = 40;
 
@@ -13,6 +14,7 @@ public class Bullet : MonoBehaviour
     private void Update()
     {
         Move();
+        forTest += 1;
     }
 
     private void Move()
