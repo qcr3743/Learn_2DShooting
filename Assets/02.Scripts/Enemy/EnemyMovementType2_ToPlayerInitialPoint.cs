@@ -6,12 +6,6 @@ public class EnemyMovementType3_ToPlayerInitialPoint : Enemy
     private Vector3 _playerInitialPos;
     private Vector3 _enemyInitialPos;
 
-    public EnemyMovementType3_ToPlayerInitialPoint(float _moveSpeed, float _health)
-    {
-        this._moveSpeed = _moveSpeed;
-        this._health = _health;
-    }
-
     protected override void Move()
     {
         Vector2 direction = (_playerInitialPos - _enemyInitialPos).normalized;
@@ -20,6 +14,7 @@ public class EnemyMovementType3_ToPlayerInitialPoint : Enemy
 
     private void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
         _playerInitialPos = player.position;
         _enemyInitialPos = transform.position;
     }
