@@ -10,6 +10,15 @@ public class PlayerMove : MonoBehaviour
     Vector3 _playerStartPos;
     private float _xBound;
 
+    private Animator _animator;
+
+    //객체가 생성될(깨어날) 때 한 번 실행
+    private void Awake()
+    {
+        _animator = GetComponent<Animator>();
+    }
+
+
     void Start()
     {
         _orthographicSize = Camera.main.orthographicSize;
@@ -51,6 +60,7 @@ public class PlayerMove : MonoBehaviour
         Vector2 direction = new Vector2(h, v);
         Vector2 normalizedDirection = direction.normalized;
 
+        _animator.SetInteger("x", (int)normalizedDirection.x);
         SpeedChange();
         transform.Translate(normalizedDirection * Speed * Time.deltaTime);
 
