@@ -61,6 +61,7 @@ public class PlayerMove : MonoBehaviour
         Vector2 normalizedDirection = direction.normalized;
 
         _animator.SetInteger("x", (int)normalizedDirection.x);
+
         SpeedChange();
         transform.Translate(normalizedDirection * Speed * Time.deltaTime);
 
