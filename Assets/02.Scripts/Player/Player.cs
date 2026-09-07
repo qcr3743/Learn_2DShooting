@@ -14,6 +14,11 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        if (damage < 0)
+        {
+            Debug.LogWarning("데미지는 음수일 수 없습니다");
+        }
+
         _hp -= damage;
         Debug.Log($"피격받았다! 플레이어의 HP: {_hp}");
         if (_hp <= 0)
@@ -24,6 +29,11 @@ public class Player : MonoBehaviour
 
     public void Heal(int _hpRecoveryAmount)
     {
+        if (_hpRecoveryAmount < 0)
+        {
+            Debug.LogWarning("힐량은 음수일 수 없습니다");
+        }
+
         _hp += _hpRecoveryAmount;
         Debug.Log($"회복! 플레이어의 HP: {_hp}");
     }

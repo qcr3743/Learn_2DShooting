@@ -4,6 +4,8 @@ public class ItemMoveToPlayer : MonoBehaviour
 {
     public Transform player;
     [SerializeField] private float _moveSpeed = 3f;
+    [SerializeField] private float _waitTime = 2f;
+    private float _waitTimer;
 
     private void Start()
     {
@@ -13,7 +15,11 @@ public class ItemMoveToPlayer : MonoBehaviour
 
     private void Update()
     {
-        Move();
+        _waitTimer += Time.deltaTime;
+        if (_waitTimer >= _waitTime)
+        {
+            Move();
+        }
     }
 
     void Move()
