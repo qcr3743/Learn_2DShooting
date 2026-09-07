@@ -61,4 +61,10 @@ public class PlayerFire : MonoBehaviour
         _canFire = false;
         timerTime = _time;
     }
+
+    public void IncreaseFireRate(float _fireRateUpAmount)
+    {
+        timerTime = Mathf.Max(0.2f, timerTime - _fireRateUpAmount);
+        Debug.Log($"발사 속도 증가!: {timerTime}");
+    }
 }

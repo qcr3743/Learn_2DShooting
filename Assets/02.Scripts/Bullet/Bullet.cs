@@ -23,7 +23,6 @@ public class Bullet : MonoBehaviour
     //충돌 관련 이벤트 (Enter -> Stay -> Exit)
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("충돌 발생");
         //Bullet 파괴
         if (other.gameObject.CompareTag("Enemy"))
         {

@@ -29,7 +29,6 @@ public class EnemySpawner : MonoBehaviour
     private void Spawn()
     {
         int randomIndex = Random.Range(1, 11);
-        Debug.Log(randomIndex);
         if (randomIndex >= 1 && randomIndex <= 5)
         {
             Enemy enemy = Instantiate(_enemyprefabs[0]);

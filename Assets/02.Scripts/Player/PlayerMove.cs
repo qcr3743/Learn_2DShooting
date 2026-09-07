@@ -93,4 +93,10 @@ public class PlayerMove : MonoBehaviour
             }
         }
     }
+
+    public void IncreaseSpeed(float _speedUpAmount)
+    {
+        Speed += _speedUpAmount;
+        Debug.Log($"이동 속도 증가!: {Speed}");
+    }
 }
