@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
     // - 데이터 은닉
     // - 메서드를 통한 상태 변경
     [SerializeField] private int _hp = 100;
+    [SerializeField] private GameObject _deathEffectPrefab;
 
     public int GetHp => _hp; //람다식 문법을 활용한 읽기 전용 프로퍼티(get을 간결하게 줄임)
 
@@ -27,9 +28,16 @@ public class Player : MonoBehaviour
         Debug.Log($"피격받았다! 플레이어의 HP: {_hp}");
         if (_hp <= 0)
         {
+            SpawnDeathEffect();
             Destroy(gameObject);
         }
     }
+
+    private void SpawnDeathEffect()
+    {
+        Instantiate(_deathEffectPrefab, transform.position, Quaternion.identity);
+    }
+
 
     public void Heal(int _hpRecoveryAmount)
     {

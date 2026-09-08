@@ -107,6 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 710bfd5c6ac246c45b77324076d5fbb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemHpRecovery
+  _itemGetEffect: {fileID: 9157105887711914197, guid: c4f829cb7dd4b864caf8832ec5b1ee55, type: 3}
   _hpRecoveryAmount: 40
 --- !u!114 &-7669216555224299989
 MonoBehaviour:

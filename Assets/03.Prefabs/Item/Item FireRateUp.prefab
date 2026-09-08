@@ -107,6 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7327a2fb281415540b14bf22efcdff56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemFireRateUp
+  _itemGetEffect: {fileID: 9157105887711914197, guid: c4f829cb7dd4b864caf8832ec5b1ee55, type: 3}
   _fireRateUpAmount: 0.1
 --- !u!114 &-8941728136984511840
 MonoBehaviour:
