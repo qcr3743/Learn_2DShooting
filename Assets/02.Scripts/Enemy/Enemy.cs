@@ -32,10 +32,15 @@ public abstract class Enemy : MonoBehaviour
 
         if (_health <= 0)
         {
-            SpawnDeathEffect();
-            SpawnItem();
-            Destroy(gameObject);
+            Die();
         }
+    }
+
+    public void Die()
+    {
+        SpawnDeathEffect();
+        SpawnItem();
+        Destroy(gameObject);
     }
 
     private void SpawnDeathEffect()

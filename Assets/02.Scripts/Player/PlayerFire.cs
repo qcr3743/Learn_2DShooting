@@ -1,4 +1,6 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 //space를 누를 때마다 총알을 생성 후 발사
@@ -7,9 +9,8 @@ using UnityEngine.UI;
 //- 생성 취리
 public class PlayerFire : MonoBehaviour
 {
-    private bool _canFire = true;
-    public float timerTime;
-    private float _time;
+    [SerializeField] private float _fireInterval;
+    private float _timer;
     private bool _isManualAttack = true;
 
     public GameObject BulletPrefab;
@@ -21,11 +22,12 @@ public class PlayerFire : MonoBehaviour
 
     private void Start()
     {
-        _time = timerTime;
+        _timer = _fireInterval;
     }
 
     private void Update()
     {
+        _timer += Time.deltaTime;
         AttackModeToggle();
         FireBullet();
     }
@@ -40,15 +42,15 @@ public class PlayerFire : MonoBehaviour
 
     private void FireBullet()
     {
-        if (_canFire && (!_isManualAttack || (_isManualAttack && Input.GetKeyDown(KeyCode.Space))))
+        if (_timer < _fireInterval)
         {
-            Fire();
+            return;
         }
 
-        timerTime -= UnityEngine.Time.deltaTime;
-        if (timerTime <= 0)
+
+        if (!_isManualAttack || (_isManualAttack && Input.GetKeyDown(KeyCode.Space)))
         {
-            _canFire = true;
+            Fire();
         }
     }
 
@@ -58,13 +60,12 @@ public class PlayerFire : MonoBehaviour
         Instantiate(BulletPrefab, FirePoint2.position, FirePoint2.rotation);
         Instantiate(BulletSubPrefab, FirePointSub1.position, FirePointSub1.rotation);
         Instantiate(BulletSubPrefab, FirePointSub2.position, FirePointSub2.rotation);
-        _canFire = false;
-        timerTime = _time;
+        _timer = 0;
     }
 
     public void IncreaseFireRate(float _fireRateUpAmount)
     {
-        timerTime = Mathf.Max(0.2f, timerTime - _fireRateUpAmount);
-        Debug.Log($"발사 속도 증가!: {timerTime}");
+        _fireInterval = Mathf.Max(0.2f, _fireInterval - _fireRateUpAmount);
+        Debug.Log($"발사 속도 증가!: {_fireInterval}");
     }
 }
