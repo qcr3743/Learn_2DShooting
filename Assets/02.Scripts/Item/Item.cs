@@ -2,12 +2,14 @@ using UnityEngine;
 
 public abstract class Item : MonoBehaviour
 {
-    private void Start()
-    {
-    }
+    private Animator _animator;
 
-    private void Update()
+    private void Awake()
     {
+        if (_animator == null)
+        {
+            _animator = GetComponent<Animator>();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)

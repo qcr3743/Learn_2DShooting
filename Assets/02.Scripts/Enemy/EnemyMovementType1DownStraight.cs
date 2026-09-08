@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class EnemyMovementType1_DownStraight : Enemy
+public class EnemyMovementType1DownStraight : Enemy
 {
     protected override void Move()
     {
