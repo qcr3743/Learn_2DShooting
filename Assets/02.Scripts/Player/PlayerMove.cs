@@ -10,6 +10,8 @@ public class PlayerMove : MonoBehaviour
     Vector3 _playerStartPos;
     private float _xBound;
 
+    public float GetSpeed => Speed;
+
     private Animator _animator;
 
     //객체가 생성될(깨어날) 때 한 번 실행

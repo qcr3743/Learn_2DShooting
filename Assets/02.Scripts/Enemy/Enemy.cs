@@ -13,11 +13,9 @@ public abstract class Enemy : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("어웨이크 실행");
         if (_animator == null)
         {
             _animator = GetComponent<Animator>();
-            Debug.Log("초기화 완료");
         }
     }
 
@@ -27,11 +25,6 @@ public abstract class Enemy : MonoBehaviour
         if (_animator != null)
         {
             _animator.SetTrigger("Hit");
-            Debug.Log("트리거 완료");
-        }
-        else
-        {
-            Debug.Log("애니메이터 없음");
         }
 
         if (_health <= 0)
