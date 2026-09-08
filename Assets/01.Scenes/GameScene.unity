@@ -616,7 +616,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMove
   Speed: 5
   speedStep: 3
-  _animator: {fileID: 535109287}
 --- !u!114 &535109283
 MonoBehaviour:
   m_ObjectHideFlags: 0

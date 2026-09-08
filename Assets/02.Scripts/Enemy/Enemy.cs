@@ -7,6 +7,9 @@ public abstract class Enemy : MonoBehaviour
     public int _damage = 40;
 
     [SerializeField] private Item[] _itemPrefabs;
+
+    [SerializeField] private GameObject _deathEffectPrefab;
+
     protected abstract void Move();
 
     private Animator _animator;
@@ -29,9 +32,15 @@ public abstract class Enemy : MonoBehaviour
 
         if (_health <= 0)
         {
+            SpawnDeathEffect();
             SpawnItem();
             Destroy(gameObject);
         }
+    }
+
+    private void SpawnDeathEffect()
+    {
+        Instantiate(_deathEffectPrefab, transform.position, Quaternion.identity);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -40,7 +49,6 @@ public abstract class Enemy : MonoBehaviour
 
         Player player = other.gameObject.GetComponent<Player>();
         player.TakeDamage(_damage);
-
         Destroy(gameObject);
     }
 

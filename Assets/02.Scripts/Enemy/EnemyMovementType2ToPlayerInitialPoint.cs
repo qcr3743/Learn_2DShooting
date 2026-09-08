@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyMovementType3ToPlayerInitialPoint : Enemy
+public class EnemyMovementType2ToPlayerInitialPoint : Enemy
 {
     public Transform player;
     private Vector3 _playerInitialPos;
