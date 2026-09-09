@@ -20,9 +20,13 @@ public class PlayerFire : MonoBehaviour
     public Transform FirePointSub1;
     public Transform FirePointSub2;
 
+    [SerializeField] private AudioClip _fireSound;
+    private AudioSource _audioSource;
+
     private void Start()
     {
         _timer = _fireInterval;
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -60,6 +64,7 @@ public class PlayerFire : MonoBehaviour
         Instantiate(BulletPrefab, FirePoint2.position, FirePoint2.rotation);
         Instantiate(BulletSubPrefab, FirePointSub1.position, FirePointSub1.rotation);
         Instantiate(BulletSubPrefab, FirePointSub2.position, FirePointSub2.rotation);
+        _audioSource.PlayOneShot(_fireSound);
         _timer = 0;
     }
 

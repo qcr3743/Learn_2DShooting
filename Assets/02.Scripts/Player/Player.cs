@@ -10,12 +10,23 @@ public class Player : MonoBehaviour
 
     public int GetHp => _hp; //람다식 문법을 활용한 읽기 전용 프로퍼티(get을 간결하게 줄임)
 
+    [SerializeField] private AudioClip _hitSound;
+    [SerializeField] private AudioClip _deathSound;
+    private AudioSource _audioSource;
+
+
     // 잘 설계된 클래스는
     // - 필드 (인스턴스 변수)
     // - 필드에 잘못된 값이 할당되지 않게 막고, 정상적으로 동작하는 메서드
 
     // getter/setter: 특정 데이터를 get/set 해주는 메서드
     // - set은 기술 지향 메서드지만, 우리는 도메인 지향을 추구해야함
+
+    private void Awake()
+    {
+        _audioSource = GetComponent<AudioSource>();
+    }
+
 
     public void TakeDamage(int damage)
     {
@@ -29,8 +40,11 @@ public class Player : MonoBehaviour
         if (_hp <= 0)
         {
             SpawnDeathEffect();
+            AudioSource.PlayClipAtPoint(_deathSound, Camera.main.transform.position);
             Destroy(gameObject);
         }
+
+        _audioSource.PlayOneShot(_hitSound);
     }
 
     private void SpawnDeathEffect()

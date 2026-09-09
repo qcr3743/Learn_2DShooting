@@ -108,6 +108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ItemSpeedUp
   _itemGetEffect: {fileID: 9157105887711914197, guid: c4f829cb7dd4b864caf8832ec5b1ee55, type: 3}
+  _itemGetSound: {fileID: 8300000, guid: 7bd7c6c439985d64581f3ac4e21149f6, type: 3}
   _speedUpAmount: 0.5
 --- !u!114 &2338154782737486792
 MonoBehaviour:

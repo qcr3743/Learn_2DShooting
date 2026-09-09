@@ -12,6 +12,9 @@ public abstract class Enemy : MonoBehaviour
 
     [SerializeField] private GameObject _deathEffectPrefab;
 
+    [SerializeField] private AudioClip _hitSound;
+    private AudioSource _audioSource;
+
     protected abstract void Move();
 
     private Animator _animator;
@@ -24,6 +27,8 @@ public abstract class Enemy : MonoBehaviour
         {
             _animator = GetComponent<Animator>();
         }
+
+        _audioSource = GetComponent<AudioSource>();
     }
 
     public void TakeDamage(float damage)
@@ -39,7 +44,10 @@ public abstract class Enemy : MonoBehaviour
         if (_health <= 0)
         {
             Die();
+            return;
         }
+
+        _audioSource.PlayOneShot(_hitSound);
     }
 
     public void Die()

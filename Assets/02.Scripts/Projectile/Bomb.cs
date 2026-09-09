@@ -8,9 +8,18 @@ public class Bomb : MonoBehaviour
 
     private Animator _animator;
 
-    private void Start()
+    [SerializeField] private AudioClip _bombSound;
+    private AudioSource _audioSource;
+
+    private void Awake()
     {
         _animator = GetComponent<Animator>();
+        _audioSource = GetComponent<AudioSource>();
+    }
+
+    private void Start()
+    {
+        _audioSource.PlayOneShot(_bombSound);
     }
 
     private void Update()

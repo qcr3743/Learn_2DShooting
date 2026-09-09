@@ -5,6 +5,9 @@ public abstract class Item : MonoBehaviour
     private Animator _animator;
     [SerializeField] protected GameObject _itemGetEffect;
 
+    [SerializeField] private AudioClip _itemGetSound;
+
+
     private void Awake()
     {
         if (_animator == null)
@@ -20,6 +23,10 @@ public abstract class Item : MonoBehaviour
         ApplyEffect(other.gameObject);
 
         SpawnItemGetEffect();
+
+        Debug.Log($"사운드 : {_itemGetSound}");
+
+        AudioSource.PlayClipAtPoint(_itemGetSound, Camera.main.transform.position);
 
         Destroy(gameObject);
     }
