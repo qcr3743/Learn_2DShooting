@@ -20,6 +20,14 @@ public abstract class Enemy : MonoBehaviour
     private Animator _animator;
 
     public event Action OnDeath;
+    // event: 구독할 수 있는 알림 통로
+    // OnDeath를 이벤트로 선언, 외부에서는 이 메서드에 구독 또는 해제가 가능
+    // 함수X, 키워드 O -> c#에서 특별한 의미를 갖도록 예약한 단어, 퍼랭이 글자 protected, private, void 등과 동격
+
+    // Action: int, float 같은 타입명
+    // -> 반환값이 없는 메서드가 들어감(대충 void라고 생각)
+
+    //OnDeath: 이벤트 멤버 이름
 
     private void Awake()
     {
@@ -56,6 +64,8 @@ public abstract class Enemy : MonoBehaviour
         _isDead = true;
 
         OnDeath?.Invoke();
+        //Enemy 죽으면 -> 구독자한테 알림 보냄
+
 
         SpawnDeathEffect();
         SpawnItem();
