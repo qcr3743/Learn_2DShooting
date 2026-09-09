@@ -7,6 +7,7 @@ public class KillCounter : MonoBehaviour
     private int _killCount;
     [SerializeField] private TMP_Text _killCountText;
     private Coroutine _textEffectCoroutine;
+    [SerializeField] private float _effectDuration = 0.1f;
 
     private void Start()
     {
@@ -39,8 +40,29 @@ public class KillCounter : MonoBehaviour
 
     private IEnumerator KillCountEffect()
     {
-        _killCountText.transform.localScale = Vector3.one * 1.3f;
-        yield return new WaitForSeconds(0.15f);
-        _killCountText.transform.localScale = Vector3.one;
+        float time = 0f;
+
+        Vector3 normalScale = Vector3.one;
+        Vector3 bigScale = Vector3.one * 1.3f;
+
+        while (time < _effectDuration)
+        {
+            time += Time.deltaTime;
+            float _timePercent = time / _effectDuration;
+            _killCountText.transform.localScale = Vector3.Lerp(normalScale, bigScale, _timePercent);
+
+            yield return null;
+        }
+
+        time = 0f;
+
+        while (time < _effectDuration)
+        {
+            time += Time.deltaTime;
+            float _timePercent = time / _effectDuration;
+            _killCountText.transform.localScale = Vector3.Lerp(bigScale, normalScale, _timePercent);
+
+            yield return null;
+        }
     }
 }
