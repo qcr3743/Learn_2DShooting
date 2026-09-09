@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
@@ -5,6 +6,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected float _moveSpeed = 1f;
     [SerializeField] protected float _health = 100;
     public int _damage = 40;
+    private bool _isDead = false;
 
     [SerializeField] private Item[] _itemPrefabs;
 
@@ -13,6 +15,8 @@ public abstract class Enemy : MonoBehaviour
     protected abstract void Move();
 
     private Animator _animator;
+
+    public event Action OnDeath;
 
     private void Awake()
     {
@@ -24,6 +28,8 @@ public abstract class Enemy : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        if (_isDead) return;
+
         _health -= damage;
         if (_animator != null)
         {
@@ -38,6 +44,11 @@ public abstract class Enemy : MonoBehaviour
 
     public void Die()
     {
+        if (_isDead) return;
+        _isDead = true;
+
+        OnDeath?.Invoke();
+
         SpawnDeathEffect();
         SpawnItem();
         Destroy(gameObject);
@@ -59,11 +70,11 @@ public abstract class Enemy : MonoBehaviour
 
     void SpawnItem()
     {
-        int randomIndex = Random.Range(1, 11);
+        int randomIndex = UnityEngine.Random.Range(1, 11);
 
         if (randomIndex >= 1 && randomIndex <= 3)
         {
-            int randomItem = Random.Range(1, 4);
+            int randomItem = UnityEngine.Random.Range(1, 4);
             if (randomItem == 1)
             {
                 Debug.Log($"Hp회복 아이템 생성 ID: {GetInstanceID()}");

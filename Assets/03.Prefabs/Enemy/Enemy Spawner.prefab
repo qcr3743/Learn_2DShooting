@@ -13,7 +13,7 @@ GameObject:
   m_Layer: 0
   m_Name: Enemy Spawner
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -49,3 +49,4 @@ MonoBehaviour:
   - {fileID: 3353661775504826888, guid: 2f1ee791807a0ca4ab82802b4db5e5e1, type: 3}
   - {fileID: 5577467622950243650, guid: 9694bbb8120740343986be37dbbd2045, type: 3}
   - {fileID: 5079096401707513103, guid: 769824b8f035cb54998a652cf7d91f75, type: 3}
+  _killCounter: {fileID: 0}
