@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac0842091886424b83f52246d4c0bcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMovementType1_DownStraight
-  _moveSpeed: 1
+  _moveSpeed: 3
   _health: 100
   _damage: 40
   _itemPrefabs:
