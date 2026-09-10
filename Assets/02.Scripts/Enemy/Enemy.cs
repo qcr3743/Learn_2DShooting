@@ -76,6 +76,7 @@ public abstract class Enemy : MonoBehaviour
         // 2. 인스턴스(생성된 객체)가 하나임을 보장한다
         //ScoreManager.Instance.AddScore(1); 
         //이런식으로 전역에서 접근 가능한 인스턴스를 생성해서 바로 함수 사용 가능
+        //여러개가 있는 경우 랜덤한 객체에 접근함. 그러니까 하나임을 보장할 수 있을 때만 할 것
 
 
         SpawnDeathEffect();

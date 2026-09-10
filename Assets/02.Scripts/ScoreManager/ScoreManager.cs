@@ -15,6 +15,12 @@ public class ScoreManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Instance = this; //싱글톤 패턴, 나 자신이 생성되었다
     }
 
