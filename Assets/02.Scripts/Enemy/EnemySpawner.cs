@@ -8,7 +8,7 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] private Enemy[] _enemyprefabs;
 
-    [SerializeField] private KillCounter _killCounter;
+    [SerializeField] private ScoreManager _scoreManager;
 
     private void Update()
     {
@@ -31,20 +31,20 @@ public class EnemySpawner : MonoBehaviour
         {
             Enemy enemy = Instantiate(_enemyprefabs[0]);
             enemy.transform.position = transform.position;
-            _killCounter.RegisterEnemy(enemy);
+            _scoreManager.RegisterEnemy(enemy);
         }
 
         else if (randomIndex >= 6 && randomIndex <= 8)
         {
             Enemy enemy = Instantiate(_enemyprefabs[1]);
             enemy.transform.position = transform.position;
-            _killCounter.RegisterEnemy(enemy);
+            _scoreManager.RegisterEnemy(enemy);
         }
         else
         {
             Enemy enemy = Instantiate(_enemyprefabs[2]);
             enemy.transform.position = transform.position;
-            _killCounter.RegisterEnemy(enemy);
+            _scoreManager.RegisterEnemy(enemy);
         }
     }
 }

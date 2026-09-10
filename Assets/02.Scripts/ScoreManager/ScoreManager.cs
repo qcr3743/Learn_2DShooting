@@ -2,10 +2,14 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class KillCounter : MonoBehaviour
+public class ScoreManager : MonoBehaviour
 {
-    private int _killCount;
-    [SerializeField] private TMP_Text _killCountText;
+    //관리: 특정 데이터에 대한 무결성과 추가 수정 삭제 등과 관련되 로직
+
+    private int _bestScore;
+    private int _currentScore;
+    [SerializeField] private TextMeshProUGUI _bestScoreTextUI;
+    [SerializeField] private TextMeshProUGUI _currentScoreTextUI;
     private Coroutine _textEffectCoroutine;
     [SerializeField] private float _effectDuration = 0.1f;
 
@@ -14,6 +18,21 @@ public class KillCounter : MonoBehaviour
         UpdateKillCountUI();
     }
 
+
+    private void Update()
+    {
+        if (_currentScore > _bestScore)
+        {
+            RefreshBestScore();
+        }
+    }
+
+    public void RefreshBestScore()
+    {
+        _bestScoreTextUI.text = $"BestScore: {_bestScore}";
+    }
+
+
     public void RegisterEnemy(Enemy enemy) //구독
     {
         enemy.OnDeath += AddKillCount;
@@ -21,7 +40,7 @@ public class KillCounter : MonoBehaviour
 
     private void AddKillCount() //알림 -> 옵저버 행동
     {
-        _killCount++;
+        _currentScore++;
         UpdateKillCountUI();
 
         if (_textEffectCoroutine != null)
@@ -35,7 +54,7 @@ public class KillCounter : MonoBehaviour
 
     private void UpdateKillCountUI()
     {
-        _killCountText.text = $"KILLCOUNT: {_killCount}";
+        _currentScoreTextUI.text = $"Score: {_currentScore}";
     }
 
     private IEnumerator KillCountEffect()
@@ -49,7 +68,7 @@ public class KillCounter : MonoBehaviour
         {
             time += Time.deltaTime;
             float _timePercent = time / _effectDuration;
-            _killCountText.transform.localScale = Vector3.Lerp(normalScale, bigScale, _timePercent);
+            _currentScoreTextUI.transform.localScale = Vector3.Lerp(normalScale, bigScale, _timePercent);
 
             yield return null;
         }
@@ -60,7 +79,7 @@ public class KillCounter : MonoBehaviour
         {
             time += Time.deltaTime;
             float _timePercent = time / _effectDuration;
-            _killCountText.transform.localScale = Vector3.Lerp(bigScale, normalScale, _timePercent);
+            _currentScoreTextUI.transform.localScale = Vector3.Lerp(bigScale, normalScale, _timePercent);
 
             yield return null;
         }
