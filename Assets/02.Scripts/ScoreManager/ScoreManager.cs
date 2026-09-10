@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    public static ScoreManager Instance; //싱글톤 패턴
+    private static ScoreManager _instance; //싱글톤 패턴
+    public static ScoreManager Instance => _instance; //싱글톤 패턴
 
     private int _bestScore;
     private int _currentScore;
@@ -15,13 +16,13 @@ public class ScoreManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null)
+        if (_instance != null)
         {
             Destroy(gameObject);
             return;
         }
 
-        Instance = this; //싱글톤 패턴, 나 자신이 생성되었다
+        _instance = this; //싱글톤 패턴, 나 자신이 생성되었다
     }
 
 
@@ -33,14 +34,13 @@ public class ScoreManager : MonoBehaviour
 
     private void Update()
     {
-        if (_currentScore > _bestScore)
-        {
-            RefreshBestScore();
-        }
+        if (_currentScore <= _bestScore) return;
+        RefreshBestScore();
     }
 
     public void RefreshBestScore()
     {
+        _bestScore = _currentScore;
         _bestScoreTextUI.text = $"BestScore: {_bestScore}";
     }
 

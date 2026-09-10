@@ -24,8 +24,6 @@ public abstract class Item : MonoBehaviour
 
         SpawnItemGetEffect();
 
-        Debug.Log($"사운드 : {_itemGetSound}");
-
         AudioSource.PlayClipAtPoint(_itemGetSound, Camera.main.transform.position);
 
         Destroy(gameObject);
