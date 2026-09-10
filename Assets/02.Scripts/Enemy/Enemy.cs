@@ -20,14 +20,18 @@ public abstract class Enemy : MonoBehaviour
     private Animator _animator;
 
     public event Action OnDeath;
-    // event: 구독할 수 있는 알림 통로
-    // OnDeath를 이벤트로 선언, 외부에서는 이 메서드에 구독 또는 해제가 가능
-    // 함수X, 키워드 O -> c#에서 특별한 의미를 갖도록 예약한 단어, 퍼랭이 글자 protected, private, void 등과 동격
+    // event: 키워드 
+    // 키워드: c#에서 특별한 의미를 갖도록 예약한 단어, 퍼랭이 글자 protected, private, void 등과 동격
+    // OnDeath라는 멤버를 이벤트로 선언
+    // 외부 객체는 이 이벤트에 자신의 메서드를 구독하거나 구독해제만 할 수 있음
 
-    // Action: int, float 같은 타입명
-    // -> 반환값이 없는 메서드가 들어감(대충 void라고 생각)
+    // Action: int, float 같은 타입명이라고 생각하면 비슷함
+    // -> 멀티캐스트 델리게이트 타입
+    // -> 반환값이 없는 메소드를 저장 가능
 
-    //OnDeath: 이벤트 멤버 이름
+    // OnDeath: 이벤트 멤버 이름
+    // 이벤트에 구독된 메서드들의 참조가 연결되어있음
+    // [ KillCounter 객체 + AddKillCount 메서드 ]
 
     private void Awake()
     {
@@ -65,6 +69,7 @@ public abstract class Enemy : MonoBehaviour
 
         OnDeath?.Invoke();
         //Enemy 죽으면 -> 구독자한테 알림 보냄
+        //OnDeath가 null이 아닐 때만 뒤의 Invoke를 실행
 
 
         SpawnDeathEffect();
