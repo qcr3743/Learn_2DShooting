@@ -9,6 +9,8 @@ public class ScoreManager : MonoBehaviour
 
     private int _bestScore;
     private int _currentScore;
+    private const string SaveKey = "BestScore";
+
     [SerializeField] private TextMeshProUGUI _bestScoreTextUI;
     [SerializeField] private TextMeshProUGUI _currentScoreTextUI;
     private Coroutine _textEffectCoroutine;
@@ -28,6 +30,14 @@ public class ScoreManager : MonoBehaviour
 
     private void Start()
     {
+        if (PlayerPrefs.HasKey(SaveKey))
+        {
+            _bestScore = PlayerPrefs.GetInt(SaveKey);
+        }
+
+        //_bestScore = PlayerPrefs.GetInt("BestScore", 0);
+        //가져올 때 가져올게 없으면 default로 0표시
+
         UpdateKillCountUI();
     }
 
@@ -42,6 +52,9 @@ public class ScoreManager : MonoBehaviour
     {
         _bestScore = _currentScore;
         _bestScoreTextUI.text = $"BestScore: {_bestScore}";
+        //저장: Set 시리즈를 이용해서 int/float/string을 저장 가능
+        PlayerPrefs.SetInt(SaveKey, _bestScore);
+        PlayerPrefs.Save();
     }
 
 
