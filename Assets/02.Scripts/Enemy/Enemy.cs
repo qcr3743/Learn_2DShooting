@@ -71,6 +71,12 @@ public abstract class Enemy : MonoBehaviour
         //Enemy 죽으면 -> 구독자한테 알림 보냄
         //OnDeath가 null이 아닐 때만 뒤의 Invoke를 실행
 
+        // 싱글톤 패턴
+        // 1. 전역적으로 접근 가능하다
+        // 2. 인스턴스(생성된 객체)가 하나임을 보장한다
+        //ScoreManager.Instance.AddScore(1); 
+        //이런식으로 전역에서 접근 가능한 인스턴스를 생성해서 바로 함수 사용 가능
+
 
         SpawnDeathEffect();
         SpawnItem();

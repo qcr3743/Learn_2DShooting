@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    //관리: 특정 데이터에 대한 무결성과 추가 수정 삭제 등과 관련되 로직
+    public static ScoreManager Instance; //싱글톤 패턴
 
     private int _bestScore;
     private int _currentScore;
@@ -12,6 +12,12 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _currentScoreTextUI;
     private Coroutine _textEffectCoroutine;
     [SerializeField] private float _effectDuration = 0.1f;
+
+    private void Awake()
+    {
+        Instance = this; //싱글톤 패턴, 나 자신이 생성되었다
+    }
+
 
     private void Start()
     {
