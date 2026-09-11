@@ -47,7 +47,7 @@ public class ScoreManager : MonoBehaviour
 
         //_bestScore = PlayerPrefs.GetInt("BestScore", 0);
         //가져올 때 가져올게 없으면 default로 0표시
-
+        _bestScoreTextUI.text = $"BestScore: {_bestScore}";
         UpdateKillCountUI();
     }
 

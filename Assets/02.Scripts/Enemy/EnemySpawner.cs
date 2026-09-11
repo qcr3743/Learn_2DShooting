@@ -5,8 +5,7 @@ public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private float _spawnInterval = 3f;
 
-    [SerializeField] private EnemySpawDataTableSO _spawnDataTable;
-    //EnemySpawnData는 유니티에 기본으로 내재되어있지 않은 키워드. 그래서 이거를 읽을 수 있기 위해서는 직렬화를 해줘야함
+    [SerializeField] private EnemySpawnDataTableSO _spawnDataTable;
 
 
     private float _timer;

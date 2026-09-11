@@ -40,7 +40,7 @@ public class Bullet : MonoBehaviour
             }
             */
             enemy.TakeDamage(damage);
-            Destroy(this.gameObject);
+            gameObject.SetActive(false);
         }
     }
 }

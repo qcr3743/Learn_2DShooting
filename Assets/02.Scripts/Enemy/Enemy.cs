@@ -8,7 +8,7 @@ public abstract class Enemy : MonoBehaviour
     public int _damage = 40;
     private bool _isDead = false;
 
-    [SerializeField] private Item[] _itemPrefabs;
+    [SerializeField] private ItemSpawnDataTableSO _itemSpawnDataTable;
 
     [SerializeField] private GameObject _deathEffectPrefab;
 
@@ -99,28 +99,24 @@ public abstract class Enemy : MonoBehaviour
 
     void SpawnItem()
     {
-        int randomIndex = UnityEngine.Random.Range(1, 11);
-
-        if (randomIndex >= 1 && randomIndex <= 3)
+        int totalWeight = 0;
+        foreach (ItemSpawnData data in _itemSpawnDataTable.Datas)
         {
-            int randomItem = UnityEngine.Random.Range(1, 4);
-            if (randomItem == 1)
+            totalWeight += data.Weight;
+        }
+
+        int randomWeight = UnityEngine.Random.Range(0, totalWeight);
+
+        int cumulativeWeight = 0;
+
+        foreach (ItemSpawnData data in _itemSpawnDataTable.Datas)
+        {
+            cumulativeWeight += data.Weight;
+            if (randomWeight < cumulativeWeight)
             {
-                Debug.Log($"Hp회복 아이템 생성 ID: {GetInstanceID()}");
-                Item item = Instantiate(_itemPrefabs[0]);
+                GameObject item = Instantiate(data.ItemPrefab);
                 item.transform.position = transform.position;
-            }
-            else if (randomItem == 2)
-            {
-                Debug.Log($"이동속도 상승 아이템 생성 ID: {GetInstanceID()}");
-                Item item = Instantiate(_itemPrefabs[1]);
-                item.transform.position = transform.position;
-            }
-            else
-            {
-                Debug.Log($"발사속도 상승 아이템 생성 ID: {GetInstanceID()}");
-                Item item = Instantiate(_itemPrefabs[2]);
-                item.transform.position = transform.position;
+                break;
             }
         }
     }

@@ -60,10 +60,10 @@ public class PlayerFire : MonoBehaviour
 
     void Fire()
     {
-        Instantiate(BulletPrefab, FirePoint1.position, FirePoint1.rotation);
-        Instantiate(BulletPrefab, FirePoint2.position, FirePoint2.rotation);
-        Instantiate(BulletSubPrefab, FirePointSub1.position, FirePointSub1.rotation);
-        Instantiate(BulletSubPrefab, FirePointSub2.position, FirePointSub2.rotation);
+        Bullet leftBullet = BulletPool.Instance.GetBullet();
+        leftBullet.transform.position = FirePoint1.position;
+        Bullet rightBullet = BulletPool.Instance.GetBullet();
+        rightBullet.transform.position = FirePoint2.position;
         _audioSource.PlayOneShot(_fireSound);
         _timer = 0;
     }

@@ -138,10 +138,7 @@ MonoBehaviour:
   _moveSpeed: 3
   _health: 100
   _damage: 40
-  _itemPrefabs:
-  - {fileID: 6097100675379972041, guid: 75c845616fa386c4f98ed475b1ef3f73, type: 3}
-  - {fileID: 8557990865614133986, guid: 686cebb935af687498722a62dee904da, type: 3}
-  - {fileID: 5200272769645567842, guid: 8c8c6adf4d482974993ca7021681d7cc, type: 3}
+  _itemSpawnDataTable: {fileID: 11400000, guid: 9f1be57aff3ab7c4492aa700142334c9, type: 2}
   _deathEffectPrefab: {fileID: 2433282508537954060, guid: 3ef3ae421f71c5c4e97fe12dc2fc6312, type: 3}
   _hitSound: {fileID: 8300000, guid: b9b6dd74586aee6479b99c1c418c7df7, type: 3}
   player: {fileID: 0}

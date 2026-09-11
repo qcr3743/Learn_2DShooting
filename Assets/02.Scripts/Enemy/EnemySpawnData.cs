@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-[System.Serializable]
+[System.Serializable] //유니티가 일반 클래스 안의 데이터를 읽고 저장할 수 있게 해줌
 public class EnemySpawnData
 {
     public GameObject EnemyPrefab;
