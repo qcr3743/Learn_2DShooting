@@ -5,6 +5,7 @@ public class Bullet : MonoBehaviour
 {
     public float speed = 10f;
     public float damage = 40;
+    public BulletType _bulletType;
 
     private void Update()
     {

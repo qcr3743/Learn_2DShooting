@@ -60,10 +60,14 @@ public class PlayerFire : MonoBehaviour
 
     void Fire()
     {
-        Bullet leftBullet = BulletPool.Instance.GetBullet();
+        Bullet leftBullet = BulletPool.Instance.GetBullet(BulletType.Main);
         leftBullet.transform.position = FirePoint1.position;
-        Bullet rightBullet = BulletPool.Instance.GetBullet();
+        Bullet rightBullet = BulletPool.Instance.GetBullet(BulletType.Main);
         rightBullet.transform.position = FirePoint2.position;
+        Bullet subLeftBullet = BulletPool.Instance.GetBullet(BulletType.Sub);
+        subLeftBullet.transform.position = FirePointSub1.position;
+        Bullet subRightBullet = BulletPool.Instance.GetBullet(BulletType.Sub);
+        subRightBullet.transform.position = FirePointSub2.position;
         _audioSource.PlayOneShot(_fireSound);
         _timer = 0;
     }
