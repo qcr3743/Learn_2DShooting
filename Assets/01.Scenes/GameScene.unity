@@ -621,6 +621,18 @@ PrefabInstance:
       propertyPath: _scoreManager
       value: 
       objectReference: {fileID: 331548631}
+    - target: {fileID: 6412496043792440058, guid: ca3cad7f20088f945ba6ecf1e3025a3b, type: 3}
+      propertyPath: _spawnDatas.Array.data[0].Weight
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6412496043792440058, guid: ca3cad7f20088f945ba6ecf1e3025a3b, type: 3}
+      propertyPath: _spawnDatas.Array.data[1].Weight
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6412496043792440058, guid: ca3cad7f20088f945ba6ecf1e3025a3b, type: 3}
+      propertyPath: _spawnDatas.Array.data[2].Weight
+      value: 40
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2742,6 +2754,18 @@ PrefabInstance:
       propertyPath: _scoreManager
       value: 
       objectReference: {fileID: 331548631}
+    - target: {fileID: 6412496043792440058, guid: ca3cad7f20088f945ba6ecf1e3025a3b, type: 3}
+      propertyPath: _spawnDatas.Array.data[0].Weight
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6412496043792440058, guid: ca3cad7f20088f945ba6ecf1e3025a3b, type: 3}
+      propertyPath: _spawnDatas.Array.data[1].Weight
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6412496043792440058, guid: ca3cad7f20088f945ba6ecf1e3025a3b, type: 3}
+      propertyPath: _spawnDatas.Array.data[2].Weight
+      value: 40
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

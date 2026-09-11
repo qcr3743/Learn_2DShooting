@@ -4,11 +4,12 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private float _spawnInterval = 3f;
+
+    [SerializeField] private EnemySpawDataTableSO _spawnDataTable;
+    //EnemySpawnData는 유니티에 기본으로 내재되어있지 않은 키워드. 그래서 이거를 읽을 수 있기 위해서는 직렬화를 해줘야함
+
+
     private float _timer;
-
-    [SerializeField] private Enemy[] _enemyprefabs;
-
-    [SerializeField] private ScoreManager _scoreManager;
 
     private void Update()
     {
@@ -23,28 +24,34 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-
     private void Spawn()
     {
-        int randomIndex = Random.Range(1, 11);
-        if (randomIndex >= 1 && randomIndex <= 5)
+        // 가중치 랜덤 선택
+        // 각 아이템에 가중치를 부여하고, 가중치가 클수록 선택되도록
+        // 아이템이 수십개가 넘으면 일일히 합쳐서 100%되게 힘드니까, 가중치로 (가중치 / 가중치 전체합) * 100으로 하면됨
+
+        // 1. 추첨할 수 있는 모든 가중치를 더함
+        int totalWeight = 0;
+        foreach (EnemySpawnData data in _spawnDataTable.Datas)
         {
-            Enemy enemy = Instantiate(_enemyprefabs[0]);
-            enemy.transform.position = transform.position;
-            _scoreManager.RegisterEnemy(enemy);
+            totalWeight += data.Weight;
         }
 
-        else if (randomIndex >= 6 && randomIndex <= 8)
+        // 2. 전체 가중치 범위에서 랜덤한 정수를 뽑음
+        int randomWeight = Random.Range(0, totalWeight);
+
+        // 3. 가중치를 누적하면서 선택된 구간을 찾음
+        int cumulativeWeight = 0;
+
+        foreach (EnemySpawnData data in _spawnDataTable.Datas)
         {
-            Enemy enemy = Instantiate(_enemyprefabs[1]);
-            enemy.transform.position = transform.position;
-            _scoreManager.RegisterEnemy(enemy);
-        }
-        else
-        {
-            Enemy enemy = Instantiate(_enemyprefabs[2]);
-            enemy.transform.position = transform.position;
-            _scoreManager.RegisterEnemy(enemy);
+            cumulativeWeight += data.Weight;
+            if (randomWeight < cumulativeWeight)
+            {
+                GameObject enemy = Instantiate(data.EnemyPrefab);
+                enemy.transform.position = transform.position;
+                break;
+            }
         }
     }
 }

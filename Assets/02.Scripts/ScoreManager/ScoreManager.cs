@@ -27,6 +27,16 @@ public class ScoreManager : MonoBehaviour
         _instance = this; //싱글톤 패턴, 나 자신이 생성되었다
     }
 
+    private void OnEnable()
+    {
+        Enemy.OnDeath += AddKillCount;
+    }
+
+    private void OnDisable()
+    {
+        Enemy.OnDeath -= AddKillCount;
+    }
+
 
     private void Start()
     {
@@ -55,12 +65,6 @@ public class ScoreManager : MonoBehaviour
         //저장: Set 시리즈를 이용해서 int/float/string을 저장 가능
         PlayerPrefs.SetInt(SaveKey, _bestScore);
         PlayerPrefs.Save();
-    }
-
-
-    public void RegisterEnemy(Enemy enemy) //구독
-    {
-        enemy.OnDeath += AddKillCount;
     }
 
     private void AddKillCount() //알림 -> 옵저버 행동

@@ -19,7 +19,7 @@ public abstract class Enemy : MonoBehaviour
 
     private Animator _animator;
 
-    public event Action OnDeath;
+    public static event Action OnDeath;
     // event: 키워드 
     // 키워드: c#에서 특별한 의미를 갖도록 예약한 단어, 퍼랭이 글자 protected, private, void 등과 동격
     // OnDeath라는 멤버를 이벤트로 선언
@@ -77,7 +77,6 @@ public abstract class Enemy : MonoBehaviour
         //ScoreManager.Instance.AddScore(1); 
         //이런식으로 전역에서 접근 가능한 인스턴스를 생성해서 바로 함수 사용 가능
         //여러개가 있는 경우 랜덤한 객체에 접근함. 그러니까 하나임을 보장할 수 있을 때만 할 것
-
 
         SpawnDeathEffect();
         SpawnItem();
